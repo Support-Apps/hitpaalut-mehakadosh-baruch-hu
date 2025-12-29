@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חמשת החושים לאלוקות</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --pink: #f8bbd9; --mint: #98d8c8; --gold: #d4af37; --light-pink: #fff5f7; }
+        body { font-family: 'Heebo', sans-serif; background: var(--light-pink); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .bsd { text-align: right; font-size: 0.9em; color: #8b7f8e; margin-bottom: 5px; }
+        h1 { text-align: center; font-size: 2em; color: var(--gold); margin-bottom: 5px; }
+        .subtitle { text-align: center; color: var(--gold); font-size: 1.1em; margin-bottom: 25px; }
+        .card { background: white; border-radius: 25px; padding: 25px; margin-bottom: 20px; box-shadow: 0 10px 40px rgba(152,216,200,0.3); }
+        .intro-section { background: var(--light-pink); border-radius: 20px; padding: 25px; margin-bottom: 25px; line-height: 1.9; }
+        .intro-title { font-size: 1.3em; color: var(--gold); font-weight: 700; text-align: center; margin-bottom: 15px; }
+        .intro-text { margin-bottom: 15px; color: #2d1b2e; }
+        .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab { padding: 12px 16px; background: white; border: 2px solid var(--mint); border-radius: 20px; cursor: pointer; font-family: 'Heebo', sans-serif; font-weight: 600; transition: all 0.3s; font-size: 0.9em; }
+        .tab:hover { background: var(--light-pink); }
+        .tab.active { background: var(--mint); color: white; border-color: var(--mint); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .sense-icon { font-size: 3em; text-align: center; margin-bottom: 15px; }
+        .sense-title { text-align: center; font-size: 1.4em; color: var(--gold); margin-bottom: 20px; font-weight: 700; }
+        .prompt-card { background: var(--light-pink); border-radius: 15px; padding: 20px; margin-bottom: 15px; border-right: 4px solid var(--gold); }
+        .prompt-title { font-weight: 600; color: var(--gold); margin-bottom: 10px; }
+        .prompt-text { line-height: 1.7; margin-bottom: 15px; }
+        .examples { background: var(--light-pink); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--gold); }
+        .examples-title { font-weight: 600; color: var(--gold); margin-bottom: 8px; }
+        .example-item { padding: 5px 0; border-bottom: 1px dashed rgba(212,175,55,0.3); }
+        .example-item:last-child { border: none; }
+        textarea { width: 100%; min-height: 100px; padding: 15px; border: 2px solid var(--pink); border-radius: 15px; font-family: 'Heebo', sans-serif; font-size: 1em; resize: vertical; background: white; }
+        textarea:focus { outline: none; border-color: var(--mint); }
+        .btn { padding: 12px 30px; border: none; border-radius: 25px; font-family: 'Heebo', sans-serif; font-weight: 600; cursor: pointer; transition: all 0.3s; margin: 5px; }
+        .btn-save { background: var(--mint); color: white; }
+        .btn-save:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(152,216,200,0.4); }
+        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+        .saved-items { margin-top: 20px; }
+        .saved-item { background: var(--light-pink); border-radius: 12px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+        .saved-content { flex: 1; line-height: 1.6; }
+        .saved-date { font-size: 0.8em; color: #8b7f8e; margin-top: 8px; }
+        .delete-btn { background: none; border: none; color: #ff6b6b; font-size: 1.3em; cursor: pointer; padding: 5px; }
+        .wonder-meter { background: var(--light-pink); border-radius: 15px; padding: 20px; margin: 20px 0; text-align: center; }
+        .wonder-title { font-weight: 600; color: var(--gold); margin-bottom: 15px; }
+        .wonder-emojis { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .wonder-btn { font-size: 2em; background: white; border: 3px solid transparent; border-radius: 15px; padding: 10px 15px; cursor: pointer; transition: all 0.3s; }
+        .wonder-btn:hover { transform: scale(1.1); }
+        .wonder-btn.selected { border-color: var(--gold); background: var(--light-pink); }
+        .blessing-box { background: var(--light-pink); border-radius: 15px; padding: 20px; text-align: center; margin: 20px 0; }
+        .blessing-text { font-size: 1.2em; color: var(--gold); font-weight: 500; }
+        .daily-exercise { background: white; border: 2px dashed var(--mint); border-radius: 15px; padding: 20px; margin: 20px 0; }
+        .exercise-title { color: var(--gold); font-weight: 600; margin-bottom: 10px; text-align: center; }
+        .senses-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
+        .sense-box { background: var(--light-pink); border-radius: 15px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s; }
+        .sense-box:hover { transform: translateY(-5px); }
+        .sense-box-icon { font-size: 2em; margin-bottom: 5px; }
+        .sense-box-name { font-size: 0.85em; font-weight: 600; color: var(--gold); }
+        .quote-box { background: var(--light-pink); border-right: 4px solid var(--gold); padding: 15px 20px; border-radius: 10px; margin: 20px 0; }
+        .quote-text { font-size: 1.1em; color: var(--gold); font-weight: 500; line-height: 1.7; }
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--mint); color: white; padding: 15px 30px; border-radius: 30px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        @media (max-width: 550px) { h1 { font-size: 1.6em; } .tabs { gap: 5px; } .tab { padding: 8px 10px; font-size: 0.8em; } .senses-grid { grid-template-columns: repeat(3, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="bsd">בס"ד</div>
+        <h1>🌟 חמשת החושים לאלוקות 🌟</h1>
+        <p class="subtitle">תרגום החושים לאלוקות</p>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('intro', this)">🏠 מבוא</button>
+            <button class="tab" onclick="showTab('sight', this)">👁️ ראייה</button>
+            <button class="tab" onclick="showTab('hearing', this)">👂 שמיעה</button>
+            <button class="tab" onclick="showTab('smell', this)">👃 ריח</button>
+            <button class="tab" onclick="showTab('taste', this)">👄 טעם</button>
+            <button class="tab" onclick="showTab('touch', this)">🤲 מישוש</button>
+        </div>
+
+        <!-- INTRO TAB -->
+        <div id="intro" class="tab-content active">
+            <div class="card">
+                <div class="intro-section">
+                    <div class="intro-title">✨ להרגיש את הקדוש ברוך הוא בכל דבר</div>
+                    <div class="intro-text">
+                        הקדוש ברוך הוא נמצא בכל מקום ובכל רגע. העולם הזה הוא לבוש לאלוקות, וכל חוויה חושית היא הזדמנות <strong>להתפעל מבורא העולם</strong>.
+                    </div>
+                    <div class="intro-text">
+                        כשאנחנו מתרגלים לראות אלוקות דרך החושים שלנו, אנחנו מעוררים את מידת <strong>ההתפעלות והפליאה</strong> - ומתקרבים לקדוש ברוך הוא.
+                    </div>
+                </div>
+
+                <div class="quote-box">
+                    <div class="quote-text">"מְלֹא כָל הָאָרֶץ כְּבוֹדוֹ" (ישעיהו ו', ג')</div>
+                </div>
+
+                <div class="senses-grid">
+                    <div class="sense-box" onclick="document.querySelectorAll('.tab')[1].click()">
+                        <div class="sense-box-icon">👁️</div>
+                        <div class="sense-box-name">ראייה</div>
+                    </div>
+                    <div class="sense-box" onclick="document.querySelectorAll('.tab')[2].click()">
+                        <div class="sense-box-icon">👂</div>
+                        <div class="sense-box-name">שמיעה</div>
+                    </div>
+                    <div class="sense-box" onclick="document.querySelectorAll('.tab')[3].click()">
+                        <div class="sense-box-icon">👃</div>
+                        <div class="sense-box-name">ריח</div>
+                    </div>
+                    <div class="sense-box" onclick="document.querySelectorAll('.tab')[4].click()">
+                        <div class="sense-box-icon">👄</div>
+                        <div class="sense-box-name">טעם</div>
+                    </div>
+                    <div class="sense-box" onclick="document.querySelectorAll('.tab')[5].click()">
+                        <div class="sense-box-icon">🤲</div>
+                        <div class="sense-box-name">מישוש</div>
+                    </div>
+                </div>
+
+                <div class="daily-exercise">
+                    <div class="exercise-title">🌈 תרגיל יומי</div>
+                    <div class="intro-text">
+                        היום, עצור 5 פעמים ושאל את עצמך:<br>
+                        <strong>"מה אני חווה עכשיו? איך אני יכול לראות את הקדוש ברוך הוא בזה?"</strong>
+                    </div>
+                </div>
+
+                <div class="blessing-box">
+                    <div class="blessing-text">
+                        "ברוך אתה ה' אלוקינו מלך העולם<br>
+                        שככה לו בעולמו"
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-save" onclick="document.querySelectorAll('.tab')[1].click(); setTimeout(function(){ window.scrollTo(0,0); }, 100);">🌟 להתחלה</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SIGHT TAB -->
+        <div id="sight" class="tab-content">
+            <div class="card">
+                <div class="sense-icon">👁️</div>
+                <div class="sense-title">ראייה - לראות אלוקות</div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🌅 התבוננות בטבע</div>
+                    <div class="prompt-text">הסתכל על משהו בטבע - עץ, שמים, פרח. שאל: מי יצר את זה? כמה חכמה יש בזה?</div>
+                    <div class="examples">
+                        <div class="examples-title">דוגמאות:</div>
+                        <div class="example-item">🌳 העץ - כמה שורשים, עלים, ענפים... מי תכנן את זה?</div>
+                        <div class="example-item">☁️ העננים - צורות משתנות, מים שמרחפים... פלא!</div>
+                        <div class="example-item">🌸 הפרח - צבעים, סימטריה, ריח... יד האמן</div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">👶 להסתכל על אנשים</div>
+                    <div class="prompt-text">כל אדם הוא צלם אלוקים. הסתכל על פנים של מישהו - שם יש ניצוץ אלוקי.</div>
+                </div>
+
+                <div class="wonder-meter">
+                    <div class="wonder-title">כמה התפעלתי היום דרך הראייה?</div>
+                    <div class="wonder-emojis">
+                        <button class="wonder-btn" onclick="selectWonder(this, 'sight')">😐</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'sight')">🙂</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'sight')">😊</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'sight')">🤩</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'sight')">✨</button>
+                    </div>
+                </div>
+
+                <textarea id="sight-notes" placeholder="מה ראיתי היום שגרם לי להתפעל מהקדוש ברוך הוא?"></textarea>
+                <div class="btn-group"><button class="btn btn-save" onclick="saveSense('sight')">💾 שמור</button></div>
+                <div id="sight-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- HEARING TAB -->
+        <div id="hearing" class="tab-content">
+            <div class="card">
+                <div class="sense-icon">👂</div>
+                <div class="sense-title">שמיעה - לשמוע אלוקות</div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🎵 קולות הטבע</div>
+                    <div class="prompt-text">עצור והקשב. הציפורים, הרוח, הגלים - כולם משבחים את הבורא.</div>
+                    <div class="examples">
+                        <div class="examples-title">דוגמאות:</div>
+                        <div class="example-item">🐦 ציפורים שרות - שירת הבריאה</div>
+                        <div class="example-item">🌊 גלים בים - קול אינסופי</div>
+                        <div class="example-item">🍃 רשרוש עלים - לחישת הבורא</div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🗣️ קולות אנושיים</div>
+                    <div class="prompt-text">קול של תינוק, צחוק של ילד, שיר של אמא - כל קול הוא מתנה אלוקית.</div>
+                </div>
+
+                <div class="wonder-meter">
+                    <div class="wonder-title">כמה התפעלתי היום דרך השמיעה?</div>
+                    <div class="wonder-emojis">
+                        <button class="wonder-btn" onclick="selectWonder(this, 'hearing')">😐</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'hearing')">🙂</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'hearing')">😊</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'hearing')">🤩</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'hearing')">✨</button>
+                    </div>
+                </div>
+
+                <textarea id="hearing-notes" placeholder="מה שמעתי היום שגרם לי להתפעל מהקדוש ברוך הוא?"></textarea>
+                <div class="btn-group"><button class="btn btn-save" onclick="saveSense('hearing')">💾 שמור</button></div>
+                <div id="hearing-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- SMELL TAB -->
+        <div id="smell" class="tab-content">
+            <div class="card">
+                <div class="sense-icon">👃</div>
+                <div class="sense-title">ריח - להריח אלוקות</div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🌹 ריחות הטבע</div>
+                    <div class="prompt-text">הריח קשור לנשמה. כשאתה מריח משהו נפלא - הנשמה נהנית!</div>
+                    <div class="examples">
+                        <div class="examples-title">דוגמאות:</div>
+                        <div class="example-item">🌸 ריח פרחים - בשמים של גן עדן</div>
+                        <div class="example-item">🌧️ ריח אחרי גשם - רעננות אלוקית</div>
+                        <div class="example-item">🍞 ריח לחם אפוי - שפע וברכה</div>
+                        <div class="example-item">🕯️ בשמים של הבדלה - קדושה</div>
+                    </div>
+                </div>
+
+                <div class="blessing-box">
+                    <div class="blessing-text">"ברוך אתה ה'... בורא מיני בשמים"</div>
+                </div>
+
+                <div class="wonder-meter">
+                    <div class="wonder-title">כמה התפעלתי היום דרך הריח?</div>
+                    <div class="wonder-emojis">
+                        <button class="wonder-btn" onclick="selectWonder(this, 'smell')">😐</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'smell')">🙂</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'smell')">😊</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'smell')">🤩</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'smell')">✨</button>
+                    </div>
+                </div>
+
+                <textarea id="smell-notes" placeholder="מה הרחתי היום שגרם לי להתפעל מהקדוש ברוך הוא?"></textarea>
+                <div class="btn-group"><button class="btn btn-save" onclick="saveSense('smell')">💾 שמור</button></div>
+                <div id="smell-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- TASTE TAB -->
+        <div id="taste" class="tab-content">
+            <div class="card">
+                <div class="sense-icon">👄</div>
+                <div class="sense-title">טעם - לטעום אלוקות</div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🍎 טעמי המזון</div>
+                    <div class="prompt-text">כל טעם הוא מתנה. לפני שאוכל - עצור וחשוב: מי יצר את הטעם הזה?</div>
+                    <div class="examples">
+                        <div class="examples-title">דוגמאות:</div>
+                        <div class="example-item">🍯 מתיקות - חסד ה'</div>
+                        <div class="example-item">🍋 חמיצות - גבורה</div>
+                        <div class="example-item">🌶️ חריפות - התעוררות</div>
+                        <div class="example-item">🧂 מליחות - איזון</div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🙏 אכילה בקדושה</div>
+                    <div class="prompt-text">ברכה לפני - מודעות לבורא. ברכה אחרי - הכרת הטוב. כל ביס - התחברות!</div>
+                </div>
+
+                <div class="wonder-meter">
+                    <div class="wonder-title">כמה התפעלתי היום דרך הטעם?</div>
+                    <div class="wonder-emojis">
+                        <button class="wonder-btn" onclick="selectWonder(this, 'taste')">😐</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'taste')">🙂</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'taste')">😊</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'taste')">🤩</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'taste')">✨</button>
+                    </div>
+                </div>
+
+                <textarea id="taste-notes" placeholder="מה טעמתי היום שגרם לי להתפעל מהקדוש ברוך הוא?"></textarea>
+                <div class="btn-group"><button class="btn btn-save" onclick="saveSense('taste')">💾 שמור</button></div>
+                <div id="taste-saved" class="saved-items"></div>
+            </div>
+        </div>
+
+        <!-- TOUCH TAB -->
+        <div id="touch" class="tab-content">
+            <div class="card">
+                <div class="sense-icon">🤲</div>
+                <div class="sense-title">מישוש - לגעת באלוקות</div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">🌿 מרקמים בטבע</div>
+                    <div class="prompt-text">גע בעלה, בחול, במים. הרגש את המרקמים - כל אחד נוצר בחכמה.</div>
+                    <div class="examples">
+                        <div class="examples-title">דוגמאות:</div>
+                        <div class="example-item">💧 מים זורמים - טהרה וחיים</div>
+                        <div class="example-item">🌾 דשא רך - נועם ה'</div>
+                        <div class="example-item">☀️ חום השמש - חיבוק אלוקי</div>
+                        <div class="example-item">🤗 חיבוק של אדם - אהבה אלוקית</div>
+                    </div>
+                </div>
+
+                <div class="prompt-card">
+                    <div class="prompt-title">💝 מגע אנושי</div>
+                    <div class="prompt-text">יד של ילד, חיבוק, לחיצת יד - מגע הוא שפה של אהבה אלוקית.</div>
+                </div>
+
+                <div class="wonder-meter">
+                    <div class="wonder-title">כמה התפעלתי היום דרך המישוש?</div>
+                    <div class="wonder-emojis">
+                        <button class="wonder-btn" onclick="selectWonder(this, 'touch')">😐</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'touch')">🙂</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'touch')">😊</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'touch')">🤩</button>
+                        <button class="wonder-btn" onclick="selectWonder(this, 'touch')">✨</button>
+                    </div>
+                </div>
+
+                <textarea id="touch-notes" placeholder="מה נגעתי/הרגשתי היום שגרם לי להתפעל מהקדוש ברוך הוא?"></textarea>
+                <div class="btn-group"><button class="btn btn-save" onclick="saveSense('touch')">💾 שמור</button></div>
+                <div id="touch-saved" class="saved-items"></div>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast">נשמר בהצלחה! ✨</div>
+
+    <script>
+        var selectedWonders = {};
+
+        function showTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function selectWonder(btn, sense) {
+            btn.parentElement.querySelectorAll('.wonder-btn').forEach(function(b) { b.classList.remove('selected'); });
+            btn.classList.add('selected');
+            selectedWonders[sense] = btn.textContent;
+        }
+
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            toast.textContent = msg || 'נשמר בהצלחה! ✨';
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2500);
+        }
+
+        function getDate() {
+            return new Date().toLocaleDateString('he-IL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function deleteItem(key, index) {
+            var saved = JSON.parse(localStorage.getItem('senses_' + key) || '[]');
+            saved.splice(index, 1);
+            localStorage.setItem('senses_' + key, JSON.stringify(saved));
+            renderSaved(key);
+        }
+
+        function saveSense(sense) {
+            var notes = document.getElementById(sense + '-notes').value;
+            var wonder = selectedWonders[sense] || '';
+            if (!notes && !wonder) { showToast('אין מה לשמור'); return; }
+            var d = { notes: notes, wonder: wonder, date: getDate() };
+            var saved = JSON.parse(localStorage.getItem('senses_' + sense) || '[]');
+            saved.unshift(d);
+            localStorage.setItem('senses_' + sense, JSON.stringify(saved));
+            document.getElementById(sense + '-notes').value = '';
+            renderSaved(sense);
+            showToast();
+        }
+
+        function renderSaved(key) {
+            var container = document.getElementById(key + '-saved');
+            var saved = JSON.parse(localStorage.getItem('senses_' + key) || '[]');
+            var html = '';
+            saved.forEach(function(item, i) {
+                var text = '';
+                if (item.wonder) text += 'התפעלות: ' + item.wonder + '<br>';
+                if (item.notes) text += item.notes;
+                html += '<div class="saved-item"><div class="saved-content">' + text + '<div class="saved-date">' + item.date + '</div></div><button class="delete-btn" onclick="deleteItem(\'' + key + '\',' + i + ')">✕</button></div>';
+            });
+            container.innerHTML = html;
+        }
+
+        ['sight', 'hearing', 'smell', 'taste', 'touch'].forEach(renderSaved);
+    </script>
+</body>
+</html>
